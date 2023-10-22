@@ -34,7 +34,7 @@ open class Creatures(
     }
 
     fun attack(enemy: Creatures) {
-        var attackMult = max(this.attack - enemy.getDefence(), 0) + 1
+        var attackMult = max(this.attack - enemy.getDefenc(), 0) + 1
         var cube = 0
         while (cube < 5 && attackMult > 0) {
             cube = (1..6).random()
@@ -45,11 +45,11 @@ open class Creatures(
 
     }
 
-    fun getHp(): Int {
+    fun getHP(): Int {
         return this.hp
     }
 
-    fun getDefence(): Int {
+    fun getDefenc(): Int {
         return this.defence
     }
 
@@ -83,9 +83,9 @@ class Player(
 }
 
 
-fun main() {
+/*fun main() {
     val player1 = Player("Player1", 20, 10, 5, 1, 6)
     player1.heal()
     val goblin1 = Monster("Goblin", 30, 10, 10, 1, 6)
 
-}
+}*/
