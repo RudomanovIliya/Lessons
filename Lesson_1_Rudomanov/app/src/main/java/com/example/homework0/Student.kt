@@ -1,6 +1,6 @@
 package com.example.homework0
 
-class Students(
+class Student(
     val id: Long,
     val name: String,
     val surname: String,
