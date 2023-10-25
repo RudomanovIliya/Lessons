@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="poem"> У лукоморья дуб зелёный;\n
+        Златая цепь на дубе том:\n
+        И днём и ночью кот учёный\n
+        Всё ходит по цепи кругом;
+    </string>
+
+    <string name="app_name">RU</string>
+</resources>
