@@ -12,7 +12,6 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <Button
             android:id="@+id/buttonActivityOne"
             android:layout_width="wrap_content"
