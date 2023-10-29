@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Lesson_3_Rudomanov" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary"> #FFCD10</item>
+         <item name="colorPrimaryVariant">#F5BF1F</item>
+         <item name="colorOnPrimary">@color/black</item>
+         <!-- Secondary brand color. -->
+        <item name="colorSecondary">#FFCD10</item>
+        <item name="colorSecondaryVariant">#979797</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.Lesson_3_Rudomanov" parent="Base.Theme.Lesson_3_Rudomanov" />
+</resources>
