@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lesson_4_Rudomanov</string>
+    <string name="title_string">Услуги сантехника</string>
+    <string name="home">Дом</string>
+    <string name="info">Информация</string>
+
+</resources>

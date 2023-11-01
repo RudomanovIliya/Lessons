@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Lesson_4_Rudomanov" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">#817F7F</item>
+        <item name="android:windowBackground">#DCD8D8</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Theme.Lesson_4_Rudomanov" parent="Base.Theme.Lesson_4_Rudomanov" />
+</resources>
