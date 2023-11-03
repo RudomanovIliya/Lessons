@@ -1,13 +1,10 @@
 package com.example.lesson_4_rudomanov
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,23 +19,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewCard)
+        val recyclerView: RecyclerView = binding.recyclerViewCard
         val recyclerViewLayoutManager = GridLayoutManager(this, 2)
 
-        val dividerItemDecorationVertical = DividerItemDecoration(this, RecyclerView.VERTICAL)
-        dividerItemDecorationVertical.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
-        recyclerView.addItemDecoration(dividerItemDecorationVertical)
-
-        val dividerItemDecorationHorizontal = DividerItemDecoration(this, RecyclerView.HORIZONTAL)
-        dividerItemDecorationHorizontal.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
-        recyclerView.addItemDecoration(dividerItemDecorationHorizontal)
+        val dividerItemDecoration = NewDeviderItemDecoration(8)
+        recyclerView.addItemDecoration(dividerItemDecoration)
 
         recyclerViewLayoutManager.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (itemsAdapter.getItemViewType(position)) {
                     TYPE_DETAIL -> 1
                     TYPE_BASE -> 2
-                    TYPE_DETAIL_BASE -> 2
                     else -> -1
                 }
             }
@@ -54,9 +45,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.toolbar.menu.findItem(R.id.item_info).setOnMenuItemClickListener {
-            val alertDialogFragment = AlertDialogFragment()
-            val manager = supportFragmentManager
-            alertDialogFragment.show(manager, "AlertDialog")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Alert Dialog")
+                .setMessage("Информация")
+                .setPositiveButton("ОК") { dialog, id ->
+                    dialog.cancel()
+                }
+            builder.create()
+            builder.show()
             true
         }
 
@@ -71,69 +67,76 @@ class MainActivity : AppCompatActivity() {
         val items = listOf(
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_ticket),
+                    R.drawable.ic_ticket,
                     "Квитанции ",
                     "- 40 080,55",
+                    getColor(R.color.red),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_meter),
+                    R.drawable.ic_meter,
                     "Счетчики ",
-                    "Подайте показания "
+                    "Подайте показания ",
+                    getColor(R.color.red),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_installment),
+                    R.drawable.ic_installment,
                     "Рассрочка ",
-                    "Сл. платеж 25.02.2018 "
+                    "Сл. платеж 25.02.2018 ",
+                    getColor(R.color.gray),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_insurance),
+                    R.drawable.ic_insurance,
                     "Страхование ",
-                    "Полис до 12.01.2019 "
+                    "Полис до 12.01.2019 ",
+                    getColor(R.color.gray),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_internet),
+                    R.drawable.ic_internet,
                     "Интернет и ТВ ",
-                    "Баланс 350 Р "
+                    "Баланс 350 Р ",
+                    getColor(R.color.gray),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_interhome),
+                    R.drawable.ic_interhome,
                     "Домофон ",
-                    "Подключен "
+                    "Подключен ",
+                    getColor(R.color.gray),
                 )
             ),
             ListItem.DetailInfoItemSeal(
                 DetailInfoItem(
-                    getDrawable(R.drawable.ic_security),
+                    R.drawable.ic_security,
                     "Охрана",
-                    "Нет"
+                    "Нет",
+                    getColor(R.color.gray),
                 )
             ),
 
             ListItem.BaseInfoItemSeal(
                 BaseInfoItem(
-                    getDrawable(R.drawable.ic_contacts),
+                    R.drawable.ic_contacts,
                     "Контакты УК и служб "
                 )
             ),
             ListItem.BaseInfoItemSeal(
                 BaseInfoItem(
-                    getDrawable(R.drawable.ic_request),
+                    R.drawable.ic_request,
                     "Мои заявки "
                 )
             ),
             ListItem.BaseInfoItemSeal(
                 BaseInfoItem(
-                    getDrawable(R.drawable.ic_memo),
+                    R.drawable.ic_memo,
                     "Памятка жителя А101 "
                 )
             ),

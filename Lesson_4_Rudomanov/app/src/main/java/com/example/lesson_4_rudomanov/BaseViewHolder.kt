@@ -1,6 +1,7 @@
 package com.example.lesson_4_rudomanov
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,11 +15,23 @@ class BaseViewHolder(
 ) {
     private val binding by viewBinding(BaseInfoItemCardBinding::bind)
 
-    fun bind(product: BaseInfoItem) = with(binding) {
+    fun bind(base: BaseInfoItem) = with(binding) {
         root.setOnClickListener {
-            onItemClick(product)
+            onItemClick(base)
         }
-        imageViewCard.setImageDrawable(product.img)
-        textViewTitle.text = product.title
+        imageViewCard.setImageResource(base.imageRes)
+        textViewTitle.text = base.title
+        textViewPrompt.visibility= View.GONE
     }
+
+    fun bind(detail: DetailInfoItem) = with(binding) {
+
+        imageViewCard.setImageResource(detail.imageRes)
+        textViewTitle.text = detail.title
+        textViewPrompt.setTextColor(detail.colorRes)
+        textViewPrompt.text = detail.prompt
+    }
+
+
+
 }

@@ -19,8 +19,9 @@ class DetailViewHolder(
         root.setOnClickListener {
             detailListener.onDetailClick(detail)
         }
-        imageViewCard.setImageDrawable(detail.img)
-        textViewTitle.text = "${detail.title}"
-        textViewPrompt.text = "${detail.prompt}"
+        imageViewCard.setImageResource(detail.imageRes)
+        textViewTitle.text = detail.title
+        textViewPrompt.setTextColor(detail.colorRes)
+        textViewPrompt.text = detail.prompt
     }
 }
