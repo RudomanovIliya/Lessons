@@ -26,25 +26,22 @@ class SixthActivity : AppCompatActivity() {
                 Toast.makeText(this@SixthActivity, item.name, Toast.LENGTH_SHORT).show()
             }
         }
-        Glide
-            .with(binding.root)
-            .load("http://developer.alexanderklimov.ru/android/images/android_cat.jpg")
-            .into(binding.test);
+
         val items = listOf(
             InfoItem(
-                R.drawable.item_1,
+                "http://developer.alexanderklimov.ru/android/images/android_cat.jpg",
                 "Царь пышка",
                 "Скидка 10% на выпечку по коду",
                 "Лермонтовский пр, 52, МО №1",
             ),
             InfoItem(
-                R.drawable.item_2,
+                "https://img.freepik.com/free-photo/sweet-pastry-assortment-top-view_23-2148516578.jpg?size=626&ext=jpg&ga=GA1.1.34264412.1699315200&semt=sph",
                 "Химчистка «МАЙ?»",
                 "Скидка 5% на чистку пальто",
                 "Лермонтовский пр, 48",
             ),
             InfoItem(
-                R.drawable.item_3,
+                "https://sedelice.ru/uploads/blog/vypecka-optom.jpg",
                 "Шаверма У Ашота ",
                 "При покупке шавермы,\n фалафель бесплатно",
                 "Лермонтовский пр, 52, МО №1",

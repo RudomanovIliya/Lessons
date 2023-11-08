@@ -19,11 +19,11 @@ class ItemViewHolder(
         root.setOnClickListener {
            itemListener.onItemClick(item)
         }
-        /*Glide
+        Glide
             .with(binding.root)
-            .load("http://developer.alexanderklimov.ru/android/images/android_cat.jpg")
-            .into(binding.imageViewItem);*/
-        imageViewItem.setImageResource(item.imageRes)
+            .load(item.image)
+            .into(binding.imageViewItem);
+        //imageViewItem.setImageResource(item.imageRes)
         textViewName.text = item.name
         textViewDiscount.text = item.discount
         textViewAddress.text = item.address
