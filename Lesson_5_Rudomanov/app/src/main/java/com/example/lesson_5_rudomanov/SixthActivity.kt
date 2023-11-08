@@ -26,7 +26,10 @@ class SixthActivity : AppCompatActivity() {
                 Toast.makeText(this@SixthActivity, item.name, Toast.LENGTH_SHORT).show()
             }
         }
-
+        Glide
+            .with(binding.root)
+            .load("http://developer.alexanderklimov.ru/android/images/android_cat.jpg")
+            .into(binding.test);
         val items = listOf(
             InfoItem(
                 R.drawable.item_1,
