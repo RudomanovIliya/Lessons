@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat
 class ForthActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityForthBinding::bind)
-    private val timeMillis = System.currentTimeMillis()
     private val time by lazy { intent.getStringExtra(KEY_TIME) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +23,7 @@ class ForthActivity : AppCompatActivity() {
         binding.textView4Time.text = currentDate
 
         binding.buttonTo4.setOnClickListener {
-            val intent = (ForthActivity.createStartIntent(this, timeMillis.toString()))
+            val intent = (createStartIntent(this, System.currentTimeMillis().toString()))
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
         }
@@ -32,11 +31,11 @@ class ForthActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        val time by lazy { intent?.getStringExtra(KEY_TIME) }
         val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS")
         val currentTime = time?.toLong()
         val currentDate: String = dateFormat.format(currentTime)
         binding.textView4Time.text = currentDate
-
     }
 
     companion object {

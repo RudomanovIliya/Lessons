@@ -10,8 +10,6 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::bind)
 
-    private val timeMillis = System.currentTimeMillis()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonTo4.setOnClickListener {
             startActivity(
                 ForthActivity.createStartIntent(
-                    this, timeMillis.toString()
+                    this, System.currentTimeMillis().toString()
                 )
             )
         }

@@ -13,8 +13,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:expanded="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:expanded="false">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbarServices"

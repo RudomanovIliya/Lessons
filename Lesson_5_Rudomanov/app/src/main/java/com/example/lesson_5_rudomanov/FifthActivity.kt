@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.lesson_5_rudomanov.databinding.ActivityFifthBinding
@@ -25,8 +24,7 @@ class FifthActivity : AppCompatActivity() {
             finish()
         }
         binding.buttonSave.setOnClickListener {
-            val data1 = Data((binding.editTextDelivery.text).toString())
-            binding.textViewData.text = data1.stringValue
+            binding.textViewData.text =(binding.editTextDelivery.text).toString()
         }
     }
 
@@ -37,6 +35,7 @@ class FifthActivity : AppCompatActivity() {
             return Intent(context, FifthActivity::class.java)
         }
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(KEY_DATA, Data((binding.textViewData.text).toString()))
         super.onSaveInstanceState(outState)
@@ -45,9 +44,9 @@ class FifthActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        val data1:Data?=savedInstanceState.getParcelable(KEY_DATA)
-        if (data1 != null) {
-            binding.textViewData.text = data1.stringValue
+        val data: Data? = savedInstanceState.getParcelable(KEY_DATA)
+        if (data != null) {
+            binding.textViewData.text = data.stringValue
         }
     }
 }
