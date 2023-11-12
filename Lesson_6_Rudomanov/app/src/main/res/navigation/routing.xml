@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/routing"
+    app:startDestination="@id/fragmentFirst">
+
+    <fragment
+        android:id="@+id/fragmentFirst"
+        android:name="com.example.lesson_6_rudomanov.FirstFragment">
+        <action
+            android:id="@+id/firstToSecond"
+            app:destination="@id/fragmentSecond"/>
+        <action
+            android:id="@+id/firstToThird"
+            app:destination="@id/fragmentThird" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentSecond"
+        android:name="com.example.lesson_6_rudomanov.SecondFragment"/>
+    <fragment
+        android:id="@+id/fragmentThird"
+        android:name="com.example.lesson_6_rudomanov.ThirdFragment" />
+
+</navigation>

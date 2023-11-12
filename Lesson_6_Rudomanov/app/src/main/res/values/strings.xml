@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Lesson_6_Rudomanov</string>
+    <string name="info">Информация</string>
+    <string name="change">Изменить</string>
+    <string name="settings">Настройки</string>
+    <string name="another">Другое</string>
+    <string name="item_one">item one</string>
+    <string name="item_two">item two</string>
+    <string name="item_three">item three</string>
+    <string name="_35">35</string>
+    <string name="_night">Ночь</string>
+    <string name="peak">Пик</string>
+</resources>

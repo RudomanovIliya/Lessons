@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentFirst"
+        android:enabled="true"
+        android:icon="@drawable/ic_navigation"
+        android:title="@string/item_one"/>
+    <item
+        android:id="@+id/fragmentSecond"
+        android:enabled="true"
+        android:icon="@drawable/ic_navigation"
+        android:title="@string/item_two" />
+    <item
+        android:id="@+id/fragmentThird"
+        android:enabled="true"
+        android:icon="@drawable/ic_navigation"
+        android:title="@string/item_three" />
+</menu>
