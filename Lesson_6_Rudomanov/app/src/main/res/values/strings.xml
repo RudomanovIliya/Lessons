@@ -7,7 +7,14 @@
     <string name="item_one">item one</string>
     <string name="item_two">item two</string>
     <string name="item_three">item three</string>
-    <string name="_35">35</string>
-    <string name="_night">Ночь</string>
+    <string name="number_35">35</string>
     <string name="peak">Пик</string>
+    <string name="flashlight">flashlight</string>
+    <string name="day">День</string>
+    <string name="night">Ночь</string>
+    <string name="new_data">Новые показания</string>
+    <string name="date_one"><b>16.02.18</b></string>
+    <string name="text_alert">Показания сданы <b>16.02.18</b> и будут учтены при\n следующем расчете <b>25.02.18</b></string>
+    <string name="show_banner">ПОКАЗАТЬ БАННЕР</string>
+    <string name="hide_banner">СКРЫТЬ БАННЕР</string>
 </resources>

@@ -20,7 +20,6 @@ class FourthFragment : Fragment(R.layout.fragment_fourth) {
         viewPager.apply {
             viewPager.adapter = catsAdapter
         }
-
         val items = listOf(
             CatItem(
                 R.drawable.cat_one,
@@ -48,5 +47,11 @@ class FourthFragment : Fragment(R.layout.fragment_fourth) {
                 else -> throw IllegalStateException()
             }
         }.attach()
+    }
+
+    companion object {
+        fun newInstance(): FourthFragment {
+            return FourthFragment()
+        }
     }
 }
