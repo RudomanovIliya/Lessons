@@ -4,34 +4,24 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-const val TYPE_ITEM = 0
 
-
-class ItemsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ItemsAdapter : RecyclerView.Adapter<ItemViewHolder>() {
     private val items = mutableListOf<InfoItem>()
 
 
     lateinit var itemListener: ItemListener
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            TYPE_ITEM -> ItemViewHolder(parent, itemListener)
-            else -> error("ViewType not supported")
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):ItemViewHolder {
+        return  ItemViewHolder(parent, itemListener)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is ItemViewHolder -> holder.bind((items[position]))
-        }
-    }
+    override fun onBindViewHolder(holder:ItemViewHolder, position: Int) {
+        holder.bind((items[position]))
 
-    override fun getItemViewType(position: Int): Int {
-        return TYPE_ITEM
     }
 
     @SuppressLint("NotifyDataSetChanged")

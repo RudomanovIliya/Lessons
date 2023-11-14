@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:expanded="false">
 
@@ -37,8 +36,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/title" />
+                    app:srcCompat="@drawable/title" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/string_title"
+                    android:textColor="@color/white" />
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -101,14 +107,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="#EEEEF0"
-                android:drawableStart="@drawable/ic_partnership"
                 android:drawablePadding="14dp"
                 android:gravity="center_vertical"
                 android:paddingStart="8dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/offer_service"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_partnership" />
 
             <!-- recyclerView со списком услуг -->
             <androidx.recyclerview.widget.RecyclerView
@@ -119,7 +125,6 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_info" />
-
 
 
         </LinearLayout>

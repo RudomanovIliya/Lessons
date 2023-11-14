@@ -31,7 +31,7 @@ class ForthActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val time by lazy { intent?.getStringExtra(KEY_TIME) }
+        val time = intent?.getStringExtra(KEY_TIME)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS")
         val currentTime = time?.toLong()
         val currentDate: String = dateFormat.format(currentTime)
