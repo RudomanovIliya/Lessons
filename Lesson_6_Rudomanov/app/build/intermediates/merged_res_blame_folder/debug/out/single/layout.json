@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\fragment_third.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\fragment_third.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\view_pager_item.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\view_pager_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\fragment_fourth.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\fragment_fourth.xml"
+    },
+    {
+        "merged": "com.example.lesson_6_rudomanov.app-mergeDebugResources-30:/layout/fragment_fourth.xml",
+        "source": "com.example.lesson_6_rudomanov.app-main-33:/layout/fragment_fourth.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\fragment_first.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\fragment_first.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\recycler_item.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\recycler_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\fragment_second.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\fragment_second.xml"
+    },
+    {
+        "merged": "com.example.lesson_6_rudomanov.app-mergeDebugResources-30:/layout/fragment_third.xml",
+        "source": "com.example.lesson_6_rudomanov.app-main-33:/layout/fragment_third.xml"
+    },
+    {
+        "merged": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-mergeDebugResources-30:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Илья\\.gradle\\daemon\\8.0\\com.example.lesson_6_rudomanov.app-main-33:\\layout\\activity_main.xml"
+    }
+]

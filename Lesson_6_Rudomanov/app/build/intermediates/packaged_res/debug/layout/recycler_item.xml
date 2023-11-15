@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageViewItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_water_cold" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/imageViewItem"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Холодная вода" />
+
+        <TextView
+            android:id="@+id/textViewSerialNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableStart="@drawable/ic_serial_number"
+            android:drawablePadding="6dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/imageViewItem"
+            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+            tools:text="54656553" />
+
+        <ImageView
+            android:id="@+id/imageViewInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_info"
+            app:layout_constraintEnd_toStartOf="@id/imageViewMore"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewNewInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSerialNumber"
+            tools:text="День" />
+
+        <TextView
+            android:id="@+id/textViewNewInfoTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/night"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/textViewNewInfo"
+            app:layout_constraintTop_toBottomOf="@id/textViewSerialNumber" />
+
+        <TextView
+            android:id="@+id/textViewNewInfoThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/peak"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/textViewNewInfoTwo"
+            app:layout_constraintTop_toBottomOf="@id/textViewSerialNumber" />
+
+        <EditText
+            android:id="@+id/editTextNewInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/number_35"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/editTextNewInfoTwo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewNewInfo"
+            app:layout_goneMarginEnd="80dp" />
+
+        <EditText
+            android:id="@+id/editTextNewInfoTwo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/number_35"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/editTextNewInfoThree"
+            app:layout_constraintStart_toEndOf="@id/editTextNewInfo"
+            app:layout_constraintTop_toBottomOf="@id/textViewNewInfoTwo" />
+
+        <EditText
+            android:id="@+id/editTextNewInfoThree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="70dp"
+            android:hint="@string/number_35"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editTextNewInfoTwo"
+            app:layout_constraintTop_toBottomOf="@id/textViewNewInfoThree" />
+
+        <ImageView
+            android:id="@+id/imageViewAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_alert"
+            app:layout_constraintBottom_toBottomOf="@id/textViewAlert"
+            app:layout_constraintEnd_toStartOf="@id/textViewAlert"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewAlert" />
+
+        <TextView
+            android:id="@+id/textViewAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="#FF4242"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/imageViewAlert"
+            app:layout_constraintTop_toBottomOf="@id/editTextNewInfo"
+            tools:text="@string/text_alert" />
+
+        <ImageView
+            android:id="@+id/imageViewSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="44dp"
+            android:background="?colorPrimary"
+            android:src="@drawable/ic_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
