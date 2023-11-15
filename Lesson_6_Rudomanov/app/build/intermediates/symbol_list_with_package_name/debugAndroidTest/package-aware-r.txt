@@ -1,3 +1,0 @@
-com.example.lesson_6_rudomanov.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme
