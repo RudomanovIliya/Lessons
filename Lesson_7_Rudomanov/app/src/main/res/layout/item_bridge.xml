@@ -24,23 +24,25 @@
 
         <TextView
             android:id="@+id/textViewTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="18dp"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageViewBridge"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Александра Невского" />
 
         <TextView
             android:id="@+id/textViewTime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="2dp"
             android:textColor="#6E6E6E"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/imageViewBridge"
             app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="2:20 - 5:10" />

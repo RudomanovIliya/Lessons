@@ -5,5 +5,5 @@ import com.example.lesson_7_rudomanov.data.model.Bridge
 
 interface MainApiService {
     @GET("bridges")
-    suspend fun getBridges(): List<Bridge>
+    suspend fun getBridges(): List<Bridge>?
 }

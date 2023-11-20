@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson_7_rudomanov.data.model.Bridge
 
-
 class BridgesAdapter : RecyclerView.Adapter<BridgeViewHolder>() {
 
     private val bridges = mutableListOf<Bridge>()
     lateinit var bridgeListener: BridgeListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BridgeViewHolder {
         return BridgeViewHolder(parent, bridgeListener)
     }

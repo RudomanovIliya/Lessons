@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.lesson_7_rudomanov.R
 import com.example.lesson_7_rudomanov.data.model.Bridge
 import com.example.lesson_7_rudomanov.databinding.ItemBridgeBinding
+import java.lang.StringBuilder
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -34,9 +35,14 @@ class BridgeViewHolder(
         val timeDatePlusHour: Date? = timeFormat.parse(timeTextPlusHour)
 
         textViewTitle.text = bridge.name
-        var check: Int = 0
+        var stateBridge: Int = 0
         if (bridge.divorces != null) {
-            bridge.divorces.forEach { position -> textViewTime.append(position.start + " - " + position.end + "    ") }
+            bridge.divorces.forEach { position ->
+                val stringBuilderTime = StringBuilder()
+                stringBuilderTime.append(position.start).append(" - ").append(position.end)
+                    .append("    ")
+                textViewTime.append(stringBuilderTime)
+            }
             for (position in bridge.divorces) {
                 if (position.start != null && position.end != null && timeDate != null && timeDatePlusHour != null) {
                     val bridgeStartTime: Date? = timeFormat.parse(position.start)
@@ -46,35 +52,25 @@ class BridgeViewHolder(
                                 bridgeEndTime
                             ))
                         ) {
-                            check = 0
+                            stateBridge = 0
                             break
                         } else {
-                            check = 1
+                            stateBridge = 1
                         }
                     } else {
-                        check = 2
+                        stateBridge = 2
                         break
                     }
-
-                } else {
-                    textViewTitle.text = "Данные не загрузились"
                 }
             }
-
-        } else {
-            textViewTitle.text = "Данные не загрузились"
         }
-        if (check == 0) {
-            binding.imageViewBridge.setImageResource(R.drawable.ic_brige_soon)
-        } else {
-            if ((check == 1)) {
-                binding.imageViewBridge.setImageResource(R.drawable.ic_brige_normal)
-            } else {
-                binding.imageViewBridge.setImageResource(R.drawable.ic_brige_late)
-            }
+        when (stateBridge) {
+            0 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_soon)
+            1 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_normal)
+            2 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_late)
         }
         root.setOnClickListener {
-            bridgeListener.onBridgeClick(bridge, check)
+            bridgeListener.onBridgeClick(bridge, stateBridge)
         }
 
     }
