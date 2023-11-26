@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lesson_9_Rudomanov</string>
+    <string name="start_downloading">Start Downloading</string>
+    <string name="now_temperature">Текущая температура</string>
+</resources>
