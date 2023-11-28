@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Lesson_8_Rudomanov</string>
+    <string name="change_color">Change color</string>
+    <string name="search">search</string>
+    <string name="no_data">Данных нет</string>
+    <string name="data_in_archive">"Данные в архиве "</string>
+    <string name="delete">Удалить</string>
+    <string name="arhive">Архивировать</string>
+    <string name="delete_or_archive">Удалить или архивировать?</string>
+    <string name="chose_color">Выбор цвета</string>
+    <string name="cancel">Отмена</string>
+    <string name="title">Название</string>
+    <string name="enter_text">Введите текст</string>
+    <string name="notes">Заметки</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lesson_7_Rudomanov</string>
+    <string name="info">Информация</string>
+    <string name="maps">Карты</string>
+    <string name="the_most_spb">The Most SPB</string>
+    <string name="data_not_download">Данные не загрузились</string>
+</resources>

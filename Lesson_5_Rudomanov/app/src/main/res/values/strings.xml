@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Lesson_5_Rudomanov</string>
+    <string name="go_to_4">go to 4</string>
+    <string name="go_to_2">go to 2</string>
+    <string name="go_to_3">go to 3</string>
+    <string name="go_to_1">go to 1</string>
+    <string name="go_to_5">go to 5</string>
+    <string name="deliver_result">deliver result</string>
+    <string name="save">save</string>
+    <string name="go_to_6">go to 6</string>
+    <string name="offer_service">Предложить услугу</string>
+    <string name="services">Услуги</string>
+    <string name="all">ВСЕ</string>
+    <string name="string_title">Услуги управляющей компании будут\n доступны после сдачи дома</string>
+</resources>

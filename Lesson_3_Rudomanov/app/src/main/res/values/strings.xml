@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Lesson_3_Rudomanov</string>
     <string name="personal_info">Личный профиль</string>
+    <string name="personal_data">Личные данные</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="email">E-mail</string>
+    <string name="login">Логин</string>
+    <string name="ur_region">Ваш регион</string>
+    <string name="card_number">Карта №</string>
+    <string name="exit_account">Выйти из аккаунта</string>
+    <string name="personal_profile">Личный профиль</string>
 </resources>
