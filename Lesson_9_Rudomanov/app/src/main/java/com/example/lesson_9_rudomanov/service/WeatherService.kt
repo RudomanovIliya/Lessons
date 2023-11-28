@@ -10,6 +10,7 @@ import com.example.lesson_9_rudomanov.data.model.Weather
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -29,26 +30,27 @@ class WeatherService : Service() {
         return LocalBinder()
     }
 
+    override fun onCreate() {
+        scope.launch {
+            while (true) {
+                weather = ApiClient.apiService.getWeather()
+                serviceCallbacks?.showWeather(weather)
+                delay(1000 * 60)
+            }
+        }
+        super.onCreate()
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return super.onStartCommand(intent, flags, startId)
     }
 
     fun setCallbacks(callbacks: ServiceCallbacks?) {
         serviceCallbacks = callbacks
-        scope.launch {
-            try {
-                while (true) {
-                    weather = ApiClient.apiService.getWeather()
-                    serviceCallbacks?.showWeather(weather)
-                    delay(1000 * 60)
-                }
-            }catch (e:Exception){
-                Log.d("LinkWeather",e.message!!)
-            }
-        }
     }
 
     override fun onDestroy() {
+        scope.cancel()
         super.onDestroy()
     }
 }

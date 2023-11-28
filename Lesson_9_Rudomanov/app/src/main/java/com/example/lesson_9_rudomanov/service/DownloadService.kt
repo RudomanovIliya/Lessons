@@ -26,15 +26,16 @@ import java.util.zip.ZipInputStream
 class DownloadService : Service() {
     private val scope = CoroutineScope(Dispatchers.IO)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         scope.launch {
-            val totalSize = intent?.getStringExtra(KEY_URL)?.let {
-                { progress:Long, length:Long ->
-                    startForeground(10, createNotification(((progress / length) * 100).toInt()))
-                }.download(
-                    it,
-                    filesDir.path + "/Image"
-                )
+            download(
+                intent?.getStringExtra(KEY_URL)!!,
+                filesDir.path + "/Image"
+            ) { progress, length ->
+                startForeground(10, createNotification(((progress / length) * 100).toInt()))
+                val intentProcess = Intent(MainActivity.PROGRESS_RECEIVER).apply {
+                    putExtra(KEY_PROGRESS, (((progress / length) * 100).toInt()))
+                }
+                sendBroadcast(intentProcess)
             }
             val imageName = unzip(filesDir.path + "/Image", filesDir.path + "/")
 
@@ -71,15 +72,15 @@ class DownloadService : Service() {
         return fileName
     }
 
-     private inline fun ((Long, Long) -> Unit)?.download(
-         link: String,
-         path: String
-     ): Long {
+    private fun download(
+        link: String,
+        path: String,
+        progress: ((Long, Long) -> Unit)? = null
+    ): Long {
         val url = URL(link)
         val connection = url.openConnection()
         connection.connect()
-        val length =
-            connection.contentLengthLong
+        val length = connection.contentLengthLong
         url.openStream().use { input ->
             FileOutputStream(File(path)).use { output ->
                 val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
@@ -88,7 +89,7 @@ class DownloadService : Service() {
                 while (bytesRead >= 0) {
                     output.write(buffer, 0, bytesRead)
                     bytesCopied += bytesRead
-                    this?.invoke(bytesCopied, length)
+                    progress?.invoke(bytesCopied, length)
                     bytesRead = input.read(buffer)
                 }
                 return bytesCopied
@@ -121,6 +122,7 @@ class DownloadService : Service() {
     companion object {
         private const val CHANNEL_ID = "channel_id"
         const val KEY_FILE = "key_fail"
+        const val KEY_PROGRESS = "key_progress"
         const val KEY_URL = "key_url"
 
         fun createStartIntent(context: Context, url: String): Intent {
