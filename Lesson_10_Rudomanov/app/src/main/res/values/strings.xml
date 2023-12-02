@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lesson_10_Rudomanov</string>
+    <string name="yandex_key">6a71e44e-1d6c-4694-b429-42f065c2dafc</string>
+    <string name="data_not_download">Данные не загрузились</string>
+    <string name="repeat_download">Повторить загрузку</string>
+    <string name="the_most_spb">The Most SPB</string>
+    <string name="you">You</string>
+</resources>
