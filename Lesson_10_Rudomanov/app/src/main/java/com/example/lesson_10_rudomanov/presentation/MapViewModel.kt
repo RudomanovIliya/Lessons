@@ -10,15 +10,15 @@ import kotlinx.coroutines.launch
 
 class MapViewModel : ViewModel() {
 
-    private val _listLiveData = MutableLiveData<LoadState<List<Bridge>?>>()
-    val listLiveData: LiveData<LoadState<List<Bridge>?>> = _listLiveData
+    private val _listLiveData = MutableLiveData<LoadState<List<Bridge>>>()
+    val listLiveData: LiveData<LoadState<List<Bridge>>> = _listLiveData
 
-    fun mapJob() {
+    fun loadBridges() {
         viewModelScope.launch {
             _listLiveData.postValue(LoadState.Loading())
             try {
                 val bridges = ApiClient.apiService.getBridges()
-                _listLiveData.postValue(LoadState.Data(bridges))
+                _listLiveData.postValue(LoadState.Data(bridges.orEmpty()))
             } catch (e: Exception) {
                 _listLiveData.postValue(LoadState.Error(e))
             }

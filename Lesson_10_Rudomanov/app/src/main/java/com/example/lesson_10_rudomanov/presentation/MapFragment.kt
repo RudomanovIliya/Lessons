@@ -8,10 +8,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.lesson_10_rudomanov.R
-import com.example.lesson_10_rudomanov.data.ApiClient
 import com.example.lesson_10_rudomanov.data.model.Bridge
 import com.example.lesson_10_rudomanov.databinding.FragmentMapBinding
 import com.example.lesson_10_rudomanov.databinding.ViewMapPinBinding
@@ -33,7 +31,6 @@ import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
-import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -163,7 +160,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            viewModel.mapJob()
+            viewModel.loadBridges()
         }
         MapKitFactory.initialize(context)
     }
@@ -181,14 +178,14 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             CameraPosition(Point(59.939136, 30.344459), 13f, 0f, 0f)
         )
         binding.buttonRepeat.setOnClickListener {
-            viewModel.mapJob()
-            loadBridges()
+            viewModel.loadBridges()
+            observerBridges()
         }
 
         binding.mapView.mapWindow.map.addInputListener(inputListener)
         collection = binding.mapView.mapWindow.map.mapObjects
             .addClusterizedPlacemarkCollection(clusterListener)
-        loadBridges()
+        observerBridges()
     }
 
     private fun stateBridge(bridge: Bridge?) {
@@ -221,12 +218,12 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         }
     }
 
-    private fun loadBridges() {
+    private fun observerBridges() {
         viewModel.listLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is LoadState.Data -> {
                     binding.progressBar.isVisible = false
-                    if (state.data != null) {
+                    if (state.data.isNotEmpty()) {
                         state.data.forEach { bridge ->
                             stateBridge(bridge)
                             collection?.addPlacemark()?.apply {
