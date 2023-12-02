@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.lesson_10_rudomanov.R
@@ -22,14 +23,14 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.location.FilteringMode
-import com.yandex.mapkit.location.Location
-import com.yandex.mapkit.location.LocationListener
-import com.yandex.mapkit.location.LocationStatus
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.ClusterListener
+import com.yandex.mapkit.map.ClusterizedPlacemarkCollection
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
+import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
 import kotlinx.coroutines.launch
@@ -39,9 +40,11 @@ import java.util.Date
 import java.util.Locale
 
 private const val ONE_HOUR = 60 * 60 * 1000
+private const val YANDEX_ZOOM_REDUCTION_COEFFICIENT = 0.8f
 
 class MapFragment : Fragment(R.layout.fragment_map) {
     private val binding by viewBinding(FragmentMapBinding::bind)
+    private val viewModel: MapViewModel by viewModels()
     private val mapPinSize by lazy { resources.getDimensionPixelSize(R.dimen.map_pin_size) }
     private val mapObjects = mutableMapOf<PlacemarkMapObject, Bridge>()
     private val mapPinViewBinding by lazy { ViewMapPinBinding.inflate(layoutInflater) }
@@ -56,7 +59,65 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private val timeDatePlusHour: Date? = timeFormat.parse(timeTextPlusHour)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private val inputListener =
+        (object : InputListener {
+            override fun onMapTap(p0: Map, p1: Point) {
+                binding.cardViewInfo.visibility = View.GONE
+            }
 
+            override fun onMapLongTap(p0: Map, p1: Point) {
+                TODO("Not yet implemented")
+            }
+        })
+    private val tapListener = (MapObjectTapListener { mapObject, _ ->
+        mapObjects[mapObject]?.let { bridge ->
+            binding.cardViewInfo.visibility = View.VISIBLE
+            when (bridge.stateBridge) {
+                0 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_soon)
+                1 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_normal)
+                2 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_late)
+            }
+            binding.textViewTitle.text = bridge.name
+            binding.textViewTime.text = ""
+            bridge.divorces?.forEach { position ->
+                val stringBuilderTime = StringBuilder()
+                stringBuilderTime.append(position.start).append(" - ")
+                    .append(position.end)
+                    .append("    ")
+                binding.textViewTime.append(stringBuilderTime)
+            }
+        }
+        true
+    })
+    private val clusterListener = ClusterListener { cluster ->
+        mapPinViewBinding.textViewName.text = cluster.size.toString()
+        cluster.addClusterTapListener { selectedCluster ->
+            val points = selectedCluster.placemarks.map { it.geometry }
+            val boundingBoxBuilder = BoundingBoxBuilder().apply {
+                points.forEach { point ->
+                    include(point)
+                }
+            }
+            val boundingBoxCameraPosition = binding.mapView.mapWindow.map.cameraPosition(
+                Geometry.fromBoundingBox(boundingBoxBuilder.build()),
+                0f,
+                0f,
+                binding.mapView.mapWindow.focusRect
+            )
+            val targetCameraPosition = CameraPosition(
+                boundingBoxCameraPosition.target,
+                boundingBoxCameraPosition.zoom - YANDEX_ZOOM_REDUCTION_COEFFICIENT,
+                boundingBoxCameraPosition.azimuth,
+                boundingBoxCameraPosition.tilt,
+            )
+            binding.mapView.mapWindow.map.move(targetCameraPosition)
+            true
+        }
+        cluster.appearance.setIcon(
+            ImageProvider.fromBitmap(mapPinViewBinding.root.toBitmap(mapPinSize))
+        )
+    }
+    private var collection: ClusterizedPlacemarkCollection? = null
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { granted ->
@@ -101,6 +162,9 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            viewModel.mapJob()
+        }
         MapKitFactory.initialize(context)
     }
 
@@ -117,115 +181,104 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             CameraPosition(Point(59.939136, 30.344459), 13f, 0f, 0f)
         )
         binding.buttonRepeat.setOnClickListener {
+            viewModel.mapJob()
             loadBridges()
         }
-        binding.mapView.mapWindow.map.addInputListener(object : InputListener {
-            override fun onMapTap(p0: Map, p1: Point) {
-                binding.cardViewInfo.visibility = View.GONE
-            }
 
-            override fun onMapLongTap(p0: Map, p1: Point) {
-                TODO("Not yet implemented")
-            }
-        })
+        binding.mapView.mapWindow.map.addInputListener(inputListener)
+        collection = binding.mapView.mapWindow.map.mapObjects
+            .addClusterizedPlacemarkCollection(clusterListener)
         loadBridges()
     }
 
-    private fun loadBridges() {
-        lifecycleScope.launch {
-            try {
-                binding.progressBar.isVisible = true
-                val bridges = ApiClient.apiService.getBridges()
-                if (bridges != null) {
-                    bridges.forEach { bridge ->
-                        var stateBridge: Int = 0
-                        if (bridge.divorces != null) {
-                            for (position in bridge.divorces) {
-                                if (position.start != null && position.end != null && timeDate != null && timeDatePlusHour != null) {
-                                    val bridgeStartTime: Date? = timeFormat.parse(position.start)
-                                    val bridgeEndTime: Date? = timeFormat.parse(position.end)
-                                    if (timeDate.before(bridgeStartTime) || (timeDate.after(
-                                            bridgeEndTime
-                                        ))
-                                    ) {
-                                        if (timeDatePlusHour.after(bridgeStartTime) && (timeDate.before(
-                                                bridgeEndTime
-                                            ))
-                                        ) {
-                                            bridge.stateBridge = 0
-                                            break
-                                        } else {
-                                            bridge.stateBridge = 1
-                                        }
-                                    } else {
-                                        bridge.stateBridge = 2
-                                        break
-                                    }
-                                }
+    private fun stateBridge(bridge: Bridge?) {
+        if (bridge != null) {
+            if (bridge.divorces != null) {
+                for (position in bridge.divorces) {
+                    if (position.start != null && position.end != null && timeDate != null && timeDatePlusHour != null) {
+                        val bridgeStartTime: Date? = timeFormat.parse(position.start)
+                        val bridgeEndTime: Date? = timeFormat.parse(position.end)
+                        if (timeDate.before(bridgeStartTime) || (timeDate.after(
+                                bridgeEndTime
+                            ))
+                        ) {
+                            if (timeDatePlusHour.after(bridgeStartTime) && (timeDate.before(
+                                    bridgeEndTime
+                                ))
+                            ) {
+                                bridge.stateBridge = 0
+                                break
+                            } else {
+                                bridge.stateBridge = 1
                             }
-                        }
-                        binding.mapView.mapWindow.map.mapObjects.addPlacemark().apply {
-                            if (bridge.lat != null && bridge.lng != null) {
-                                geometry = Point(bridge.lat, bridge.lng)
-                            }
-                            when (bridge.stateBridge) {
-                                0 -> setIcon(
-                                    ImageProvider.fromBitmap(
-                                        binding.root.context.getDrawable(R.drawable.ic_brige_soon)
-                                            ?.toBitmap(mapPinSize)
-                                    )
-                                )
-
-                                1 -> setIcon(
-                                    ImageProvider.fromBitmap(
-                                        binding.root.context.getDrawable(R.drawable.ic_brige_normal)
-                                            ?.toBitmap(mapPinSize)
-                                    )
-                                )
-
-                                2 -> setIcon(
-                                    ImageProvider.fromBitmap(
-                                        binding.root.context.getDrawable(R.drawable.ic_brige_late)
-                                            ?.toBitmap(mapPinSize)
-                                    )
-                                )
-                            }
-                            addTapListener { mapObject, _ ->
-                                mapObjects[mapObject]?.let { bridge ->
-                                    binding.cardViewInfo.visibility = View.VISIBLE
-                                    when (bridge.stateBridge) {
-                                        0 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_soon)
-                                        1 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_normal)
-                                        2 -> binding.imageViewBridge.setImageResource(R.drawable.ic_brige_late)
-                                    }
-                                    binding.textViewTitle.text = bridge.name
-                                    binding.textViewTime.text = ""
-                                    bridge.divorces?.forEach { position ->
-                                        val stringBuilderTime = StringBuilder()
-                                        stringBuilderTime.append(position.start).append(" - ")
-                                            .append(position.end)
-                                            .append("    ")
-                                        binding.textViewTime.append(stringBuilderTime)
-                                    }
-                                }
-                                true
-                            }
-                            mapObjects[this] = bridge
+                        } else {
+                            bridge.stateBridge = 2
+                            break
                         }
                     }
-                } else {
+                }
+            }
+        }
+    }
+
+    private fun loadBridges() {
+        viewModel.listLiveData.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is LoadState.Data -> {
+                    binding.progressBar.isVisible = false
+                    if (state.data != null) {
+                        state.data.forEach { bridge ->
+                            stateBridge(bridge)
+                            collection?.addPlacemark()?.apply {
+                                if (bridge.lat != null && bridge.lng != null) {
+                                    geometry = Point(bridge.lat, bridge.lng)
+                                }
+                                when (bridge.stateBridge) {
+                                    0 -> setIcon(
+                                        ImageProvider.fromBitmap(
+                                            binding.root.context.getDrawable(R.drawable.ic_brige_soon)
+                                                ?.toBitmap()
+                                        )
+                                    )
+
+                                    1 -> setIcon(
+                                        ImageProvider.fromBitmap(
+                                            binding.root.context.getDrawable(R.drawable.ic_brige_normal)
+                                                ?.toBitmap()
+                                        )
+                                    )
+
+                                    2 -> setIcon(
+                                        ImageProvider.fromBitmap(
+                                            binding.root.context.getDrawable(R.drawable.ic_brige_late)
+                                                ?.toBitmap()
+                                        )
+                                    )
+                                }
+                                addTapListener(tapListener)
+                                mapObjects[this] = bridge
+                            }
+                        }
+                        collection?.clusterPlacemarks(40.0, 15)
+                    } else {
+                        binding.progressBar.isVisible = false
+                        binding.mapView.visibility = View.GONE
+                        binding.textViewError.visibility = View.VISIBLE
+                        binding.textViewError.text = getString(R.string.data_not_download)
+                        binding.buttonRepeat.visibility = View.VISIBLE
+                    }
+                }
+
+                is LoadState.Error -> {
                     binding.progressBar.isVisible = false
                     binding.mapView.visibility = View.GONE
                     binding.textViewError.visibility = View.VISIBLE
-                    binding.textViewError.text = getString(R.string.data_not_download)
-                    binding.buttonRepeat.visibility = View.VISIBLE
+                    binding.textViewError.text = state.toString()
                 }
-                binding.progressBar.isVisible = false
-            } catch (e: Exception) {
-                binding.progressBar.isVisible = false
-                binding.mapView.visibility = View.GONE
-                binding.textViewError.visibility = View.VISIBLE
-                binding.textViewError.text = e.message
+
+                is LoadState.Loading -> {
+                    binding.progressBar.isVisible = true
+                }
             }
         }
     }
