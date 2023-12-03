@@ -4,12 +4,14 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 import java.util.GregorianCalendar
 import kotlin.random.Random
+
 
 class VisitingView : View {
     constructor(context: Context) : super(context) {
@@ -65,11 +67,7 @@ class VisitingView : View {
     private val textPadding by lazy { resources.getDimension(R.dimen.text_padding) }
 
     private var widthBetweenRow = 0f
-    private var calendar = Calendar.getInstance()
-    private var month = calendar[Calendar.MONTH] + 1
-    private var day = calendar[Calendar.DAY_OF_MONTH]
-    private var year = calendar[Calendar.YEAR]
-    private var countRows: Int = 1
+    private var countRows: Int = 0
     private var maxHeight = height.toFloat() - textPadding * 2.5f
     private var numbers = mutableListOf<Int>()
     private var numbersPercent = mutableListOf<Float>()
@@ -110,13 +108,7 @@ class VisitingView : View {
         widthBetweenRow = (width / (countRows + 1)).toFloat()
         maxHeight = height.toFloat() - textPadding * 2.5f
         startLineY = height.toFloat() - textPadding
-        repeat(countRows) {
-            numbersPercent.add(
-                numbers[it].toFloat() / numbers.max()
-                    .toFloat()
-            )
-            coefficientWave.add((100 / (it.toFloat() + 1f)))
-        }
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -167,37 +159,18 @@ class VisitingView : View {
         valueAnimator?.start()
     }
 
-    fun setData(data: Int) {
-        if (data < 1 || data > 9) {
-            throw Exception("Value is out of bounds(1..9)")
+    fun setData(items: MutableList<Item>) {
+        if (items.isEmpty() || items.size > 9) {
+            throw Exception("Size is out of bounds(1..9)")
         }
-        countRows = data
+        countRows = items.size
         widthBetweenRow = (width / (countRows + 1)).toFloat()
         maxHeight = height.toFloat() - textPadding * 2.5f
         startLineY = height.toFloat() - textPadding
-        var count = 0
-        var day = day
-        var month = month
-        var calendar: Calendar = GregorianCalendar(year, month - 1, day)
-        repeat(countRows) {
-            numbers.add(Random.nextInt(100))
-            if (day - count < 1) {
-                if (month - 1 > 0) {
-                    calendar = GregorianCalendar(year, month - 1, 1)
-                    day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-                    month -= 1
-                    count = 0
-                } else {
-                    calendar = GregorianCalendar(year - 1, 11, 1)
-                    day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-                    month = 12
-                    count = 0
-                }
-            }
-            date.add("${day - count}.${month}")
-            count++
+        items.forEach { item ->
+            numbers.add(item.value)
+            date.add("${DateFormat.format("dd", item.date)}.${DateFormat.format("MM", item.date)}")
         }
-        date.reverse()
         repeat(countRows) {
             numbersPercent.add(
                 numbers[it].toFloat() / numbers.max()
@@ -205,5 +178,6 @@ class VisitingView : View {
             )
             coefficientWave.add((100 / (it.toFloat() + 1f)))
         }
+        invalidate()
     }
 }
