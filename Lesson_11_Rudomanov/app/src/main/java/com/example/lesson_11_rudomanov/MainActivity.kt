@@ -7,10 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.lesson_11_rudomanov.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -21,16 +18,14 @@ class MainActivity : AppCompatActivity() {
         val timeNow: Calendar = Calendar.getInstance()
         val listItem = mutableListOf<Item>()
 
+        repeat(9) {
+            timeNow.add(Calendar.DAY_OF_YEAR, -1)
+            listItem.add(Item(timeNow.time, Random.nextInt(100)))
+        }
+        listItem.reverse()
         lifecycleScope.launch {
-            repeat(9) {
-                timeNow.add(Calendar.DAY_OF_YEAR, -1)
-                listItem.add(Item(timeNow.time, Random.nextInt(100)))
-                println(timeNow.time)
-            }
-            listItem.reverse()
-            delay(2000)
+            //delay(2000)
             binding.visitingView.setData(listItem)
         }
-
     }
 }

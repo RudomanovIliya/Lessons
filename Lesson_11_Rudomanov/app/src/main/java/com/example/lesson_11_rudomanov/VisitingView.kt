@@ -159,7 +159,7 @@ class VisitingView : View {
         valueAnimator?.start()
     }
 
-    fun setData(items: MutableList<Item>) {
+    fun setData(items: List<Item>) {
         if (items.isEmpty() || items.size > 9) {
             throw Exception("Size is out of bounds(1..9)")
         }
