@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="row_stroke_width">4dp</dimen>
+    <dimen name="width_between_row">20dp</dimen>
+    <dimen name="radius_corner">2dp</dimen>
+    <dimen name="text_size">12sp</dimen>
+    <dimen name="text_padding">20dp</dimen>
+
+</resources>
