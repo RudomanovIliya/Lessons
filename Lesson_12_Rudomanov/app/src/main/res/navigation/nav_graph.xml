@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listBridgeFragment">
+
+    <fragment
+        android:id="@+id/listBridgeFragment"
+        android:name="com.example.lesson_12_rudomanov.presentation.bridges.ListBridgeFragment"
+        android:label="ListBridgeFragment">
+        <action
+            android:id="@+id/action_listBridgeFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_listBridgeFragment_to_infoBridgeFragment"
+            app:destination="@id/infoBridgeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoBridgeFragment"
+        android:name="com.example.lesson_12_rudomanov.presentation.bridges.InfoBridgeFragment"
+        android:label="InfoBridgeFragment">
+        <argument
+            android:name="bridgeId"
+            app:argType="integer" />
+        <argument
+            android:name="divorces"
+            app:argType="com.example.lesson_12_rudomanov.presentation.bridges.model.Divorces[]" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.lesson_12_rudomanov.presentation.map.MapFragment"
+        android:label="MapFragment" />
+</navigation>
