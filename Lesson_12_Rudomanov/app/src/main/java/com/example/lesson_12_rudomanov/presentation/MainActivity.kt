@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         )
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            view.updatePadding(bottom = insets.bottom)
+            view.updatePadding(bottom = insets.bottom, right = insets.right, left = insets.left)
             windowInsets
         }
         setContentView(binding.root)

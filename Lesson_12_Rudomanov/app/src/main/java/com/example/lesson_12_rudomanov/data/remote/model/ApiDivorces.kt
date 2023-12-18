@@ -10,6 +10,7 @@ class ApiDivorces(
 
 fun ApiDivorces.toModel(): Divorces {
     return Divorces(
-        startTime = startTime.orEmpty(), endTime = endTime.orEmpty()
+        startTime = startTime.orEmpty(),
+        endTime = endTime.orEmpty()
     )
 }

@@ -82,7 +82,9 @@ class InfoBridgeFragment : BaseFragment(R.layout.fragment_info_bridge) {
     private fun loadImage(imageURL: String?) {
         lifecycleScope.launch {
             binding.progressBarGlide.isVisible = true
-            Glide.with(binding.root).load(imageURL).into(binding.imageViewTitle)
+            Glide.with(binding.root)
+                .load(imageURL)
+                .into(binding.imageViewTitle)
             binding.progressBarGlide.isVisible = false
         }
     }
