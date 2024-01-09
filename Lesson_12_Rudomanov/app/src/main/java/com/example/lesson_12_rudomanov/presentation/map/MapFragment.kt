@@ -1,5 +1,6 @@
 package com.example.lesson_12_rudomanov.presentation.map
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
@@ -16,6 +17,7 @@ import com.example.lesson_12_rudomanov.databinding.ViewMapPinBinding
 import com.example.lesson_12_rudomanov.presentation.BaseFragment
 import com.example.lesson_12_rudomanov.presentation.LoadState
 import com.example.lesson_12_rudomanov.presentation.bridges.model.Bridge
+import com.example.lesson_12_rudomanov.presentation.bridges.model.Divorces
 import com.example.lesson_12_rudomanov.presentation.bridges.model.stateBridge
 import com.example.lesson_12_rudomanov.presentation.map.extensions.toBitmap
 import com.yandex.mapkit.MapKitFactory
@@ -31,6 +33,8 @@ import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.runtime.image.ImageProvider
 
 private const val YANDEX_ZOOM_REDUCTION_COEFFICIENT = 0.8f
+private const val CLUSTER_RADIUS = 40.0
+private const val CLUSTER_MIN_ZOOM = 15
 
 class MapFragment : BaseFragment(R.layout.fragment_map) {
     private val binding by viewBinding(FragmentMapBinding::bind)
@@ -39,7 +43,8 @@ class MapFragment : BaseFragment(R.layout.fragment_map) {
     private val mapPinSize by lazy { resources.getDimensionPixelSize(R.dimen.map_pin_size) }
     private val mapObjects = mutableMapOf<PlacemarkMapObject, Bridge>()
     private val mapPinViewBinding by lazy { ViewMapPinBinding.inflate(layoutInflater) }
-
+    private var bridgeId = 0
+    private var bridgeDivorces = listOf<Divorces>()
     private val inputListener = (object : InputListener {
         override fun onMapTap(p0: Map, p1: Point) {
             binding.bridgeRowViewInfo.visibility = View.GONE
@@ -50,6 +55,8 @@ class MapFragment : BaseFragment(R.layout.fragment_map) {
     })
     private val tapListener = (MapObjectTapListener { mapObject, _ ->
         mapObjects[mapObject]?.let { bridge ->
+            bridgeId = bridge.id
+            bridgeDivorces = bridge.divorces
             binding.bridgeRowViewInfo.visibility = View.VISIBLE
             when (stateBridge(bridge.divorces)) {
                 0 -> binding.bridgeRowViewInfo.setImage(R.drawable.ic_brige_soon)
@@ -106,17 +113,25 @@ class MapFragment : BaseFragment(R.layout.fragment_map) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.bridgeRowViewInfo.setOnClickListener {
+            val action = MapFragmentDirections.actionMapFragmentToInfoBridgeFragment(
+                bridgeId,
+                bridgeDivorces.toTypedArray()
+            )
+            findNavController().navigate(action)
+        }
         ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
             view.updatePadding(top = insets.top)
             windowInsets
         }
         binding.toolbar.menu.findItem(R.id.itemList).setOnMenuItemClickListener {
-            findNavController().popBackStack()
+            val action = MapFragmentDirections.actionMapFragmentToListBridgeFragment()
+            findNavController().navigate(action)
             true
         }
         binding.mapView.mapWindow.map.move(
-            CameraPosition(Point(59.939136, 30.344459), 13f, 0f, 0f)
+            CameraPosition(Point(59.94623925, 30.34531475), 12f, 0f, 0f)
         )
         binding.buttonRepeat.setOnClickListener {
             viewModel.loadBridges()
@@ -140,34 +155,22 @@ class MapFragment : BaseFragment(R.layout.fragment_map) {
                                 geometry = Point(bridge.lat, bridge.lng)
                                 when (stateBridge(bridge.divorces)) {
                                     0 -> setIcon(
-                                        ImageProvider.fromBitmap(
-                                            AppCompatResources.getDrawable(
-                                                binding.root.context, R.drawable.ic_brige_soon
-                                            )?.toBitmap()
-                                        )
+                                        setIcon(binding.root.context, R.drawable.ic_brige_soon)
                                     )
 
                                     1 -> setIcon(
-                                        ImageProvider.fromBitmap(
-                                            AppCompatResources.getDrawable(
-                                                binding.root.context, R.drawable.ic_brige_normal
-                                            )?.toBitmap()
-                                        )
+                                        setIcon(binding.root.context, R.drawable.ic_brige_normal)
                                     )
 
                                     2 -> setIcon(
-                                        ImageProvider.fromBitmap(
-                                            AppCompatResources.getDrawable(
-                                                binding.root.context, R.drawable.ic_brige_late
-                                            )?.toBitmap()
-                                        )
+                                        setIcon(binding.root.context, R.drawable.ic_brige_late)
                                     )
                                 }
                                 addTapListener(tapListener)
                                 mapObjects[this] = bridge
                             }
                         }
-                        collection?.clusterPlacemarks(40.0, 15)
+                        collection?.clusterPlacemarks(CLUSTER_RADIUS, CLUSTER_MIN_ZOOM)
                     } else {
                         binding.progressBar.isVisible = false
                         binding.mapView.visibility = View.GONE
@@ -189,6 +192,14 @@ class MapFragment : BaseFragment(R.layout.fragment_map) {
                 }
             }
         }
+    }
+
+    private fun setIcon(context: Context, resId: Int): ImageProvider {
+        return ImageProvider.fromBitmap(
+            AppCompatResources.getDrawable(
+                context, resId
+            )?.toBitmap()
+        )
     }
 
     override fun onStart() {

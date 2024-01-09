@@ -1,4 +1,4 @@
-package com.example.lesson_12_rudomanov.data.di
+package com.example.lesson_12_rudomanov.di
 
 import com.example.lesson_12_rudomanov.presentation.BridgesApplication
 import dagger.BindsInstance

@@ -1,4 +1,4 @@
-package com.example.lesson_12_rudomanov.data.di
+package com.example.lesson_12_rudomanov.di
 
 import com.example.lesson_12_rudomanov.data.remote.repository.BridgesRepository
 import com.example.lesson_12_rudomanov.data.remote.repository.BridgesRepositoryImpl

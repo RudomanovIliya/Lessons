@@ -1,7 +1,7 @@
 package com.example.lesson_12_rudomanov.presentation
 
 import com.example.lesson_12_rudomanov.R
-import com.example.lesson_12_rudomanov.data.di.DaggerApplicationComponent
+import com.example.lesson_12_rudomanov.di.DaggerApplicationComponent
 import com.yandex.mapkit.MapKitFactory
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication

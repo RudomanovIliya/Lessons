@@ -14,6 +14,7 @@ import com.example.lesson_12_rudomanov.presentation.BaseFragment
 import com.example.lesson_12_rudomanov.presentation.LoadState
 import com.example.lesson_12_rudomanov.presentation.bridges.model.Divorces
 import com.example.lesson_12_rudomanov.presentation.bridges.model.stateBridge
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class InfoBridgeFragment : BaseFragment(R.layout.fragment_info_bridge) {

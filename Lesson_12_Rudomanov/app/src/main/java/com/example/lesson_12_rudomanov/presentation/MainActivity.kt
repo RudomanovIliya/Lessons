@@ -17,9 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.light(
+            statusBarStyle = SystemBarStyle.dark(
                 getColor(R.color.translucent_black),
-                getColor(R.color.translucent_black)
             )
         )
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->

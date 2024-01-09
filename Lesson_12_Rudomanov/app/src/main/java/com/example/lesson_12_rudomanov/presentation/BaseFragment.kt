@@ -3,7 +3,7 @@ package com.example.lesson_12_rudomanov.presentation
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModel
-import com.example.lesson_12_rudomanov.data.di.DaggerViewModelFactory
+import com.example.lesson_12_rudomanov.di.DaggerViewModelFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 

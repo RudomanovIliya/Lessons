@@ -1,4 +1,4 @@
-package com.example.lesson_12_rudomanov.data.di
+package com.example.lesson_12_rudomanov.di
 
 import com.example.lesson_12_rudomanov.presentation.bridges.InfoBridgeFragment
 import com.example.lesson_12_rudomanov.presentation.bridges.ListBridgeFragment
@@ -13,7 +13,7 @@ abstract class FragmentModule {
     abstract fun listBridgeFragment(): ListBridgeFragment
 
     @ContributesAndroidInjector
-    abstract fun InfoBridgeFragment(): InfoBridgeFragment
+    abstract fun infoBridgeFragment(): InfoBridgeFragment
 
     @ContributesAndroidInjector
     abstract fun MapFragment(): MapFragment
